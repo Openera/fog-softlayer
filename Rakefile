@@ -8,19 +8,13 @@
 
 require "bundler/gem_tasks"
 require "rake/testtask"
-
-#task :default => :test
-#
-#Rake::TestTask.new do |t|
-#  t.pattern = File.join("spec", "**", "*_spec.rb")
-#end
-
 require 'bundler/setup'
 require 'rake/testtask'
 require 'date'
 require 'rubygems'
 require 'rubygems/package_task'
 require 'yard'
+require 'dotenv/tasks'
 require File.dirname(__FILE__) + '/lib/fog/softlayer'
 
 #############################################################################
@@ -130,8 +124,8 @@ task :nuke do
 end
 
 desc "Open an irb session preloaded with this library"
-task :console do
-  sh "irb -rubygems -r ./lib/#{name}.rb"
+task :console => :dotenv do
+  sh "irb -rubygems -r ./lib/console.rb"
 end
 
 #############################################################################

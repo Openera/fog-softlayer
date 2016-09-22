@@ -20,24 +20,68 @@ Additional services coming soon:
 * Load Balancer
 * Message Queue
 
-#### Installation
+## Installation
 
 Add this line to your application's Gemfile:
 
-    gem "fog-softlayer"
+```ruby
+gem "fog-softlayer", github: 
+```
 
 And then execute:
 
-    $ bundle
+```
+$ bundle install
+```
 
-Or install it yourself as:
+## Usage
 
-    $ gem install fog-softlayer
+Create a .env file with your personal credentialsas follow
 
-#### Usage
+```
+SOFTLAYER_USERNAME=X
+SOFTLAYER_API_KEY=X
+STORAGE_BUCKET=masv-test
+CLUSTER_ID=wdc
+EXCON_DEBUG=true
+```
+
+Then a connection to Object Storage will be automatically created when you run:
+
+```
+$ bundle exec rake console
+```
 
 See `examples/`
 
-#### Contributing
+## Contributing
 
 See `CONTRIBUTING.md`
+
+## Development
+
+Getting started:
+
+```
+# Install dependencies
+$ bundle install
+# List available tasks
+$ bundle exec rake -T
+```
+
+Add the upstream remote to be in sync with the fork:
+
+```
+$ git remote add upstream https://github.com/fog/fog-softlayer.git
+# Test remote successfully added
+$ git remote -v
+```
+
+Please push your new code to the *liveqos* branch. Create new branches from the *liveqos* branch.
+Push and rebase from master any additions to the original project:
+
+```
+$ git fetch upstream
+$ git pull upstream master
+$ git rebase -i master
+```

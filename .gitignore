@@ -26,4 +26,4 @@ pkg
 spec/credentials.yml
 vendor/*
 tags
-
+.env
