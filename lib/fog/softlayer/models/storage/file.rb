@@ -12,14 +12,17 @@ module Fog
       class File < Fog::Model
 
         identity  :key,             :aliases => 'name'
-
+        
+        attribute :access_control_allow_origin, :aliases => ['Access-Control-Allow-Origin']
         attribute :content_length,  :aliases => ['bytes', 'Content-Length'], :type => :integer
         attribute :content_type,    :aliases => ['content_type', 'Content-Type']
         attribute :content_disposition, :aliases => ['content_disposition', 'Content-Disposition']
+        attribute :delete_at,       :aliases => ['X-Delete-At'], :type => :timestamp
         attribute :etag,            :aliases => ['hash', 'Etag']
         attribute :last_modified,   :aliases => ['last_modified', 'Last-Modified'], :type => :time
-        attribute :access_control_allow_origin, :aliases => ['Access-Control-Allow-Origin']
         attribute :origin,          :aliases => ['Origin']
+        attribute :manifest,        :aliases => ['X-Object-Manifest']
+        attribute :metadata
 
         def body
           attributes[:body] ||= if last_modified

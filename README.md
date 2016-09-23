@@ -85,3 +85,8 @@ $ git fetch upstream
 $ git pull upstream master
 $ git rebase -i master
 ```
+
+# References
+
+* [MetadataSearchAPI](https://wiki.openstack.org/wiki/MetadataSearchAPI)
+* X-Storage-Policy ??
