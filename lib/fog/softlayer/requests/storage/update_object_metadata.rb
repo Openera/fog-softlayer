@@ -34,7 +34,7 @@ module Fog
           }
 
           # Support manifest files
-          params[:query] = 'multipart-manifest=get' if object_info["X-Object-Manifest"] && !object_info["X-Object-Manifest".empty?
+          params[:query] = 'multipart-manifest=get' if object_info["X-Object-Manifest"] && !object_info["X-Object-Manifest"].empty?
 
           request(params)
         rescue Excon::Error::Timeout # Large Object support
