@@ -14,3 +14,4 @@ DIR = CONN.directories.get(ENV['STORAGE_BUCKET']) if ENV['STORAGE_BUCKET']
 #
 # Low level queries
 # CONN.update_object_metadata('masv-test', 'bar_20162_gat-1474560858.pdf', { 'author-id' => SecureRandom.uuid })
+# CONN.search_object('masv-test', { q: '2016', field: 'object' })
