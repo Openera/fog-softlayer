@@ -13,13 +13,17 @@ module Fog
         #
         # cf. http://developer.openstack.org/api-ref/object-storage/?expanded=create-or-update-object-metadata-detail
         def update_object_metadata(container, object, options={})
-          object_info = head_object(container, object).headers
+          special_headers = ['Content-Type', 'Content-Encoding', 'Content-Disposition', 'X-Delete-At']
+          
           # Get current file metadata as we need to provide all metadata items for the POST action
-          existing_headers = object_info.select { |k,_| k.start_with?("X-Object-Meta-") } 
+          object_info = head_object(container, object).headers
+          existing_headers = object_info.select do |k,_| 
+            k.start_with?("X-Object-Meta-") || special_headers.include?(k.to_s)
+          end 
 
           headers_to_add = options.inject({}) do |memo, (k, v)| 
             k = (k.to_s.start_with?('X-Object-Meta-') || 
-                 ['Content-Type', 'Content-Encoding', 'Content-Disposition', 'X-Delete-At'].include?(k.to_s)
+                 special_headers.include?(k.to_s)
                 ) ? k.to_s : "X-Object-Meta-#{k}"
             memo[k] = v 
             memo 
