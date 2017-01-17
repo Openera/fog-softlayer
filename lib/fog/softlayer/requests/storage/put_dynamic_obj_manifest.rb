@@ -33,10 +33,12 @@ module Fog
             :expects  => 201,
             :headers  => headers,
             :method   => 'PUT',
-            :path     => path
+            :path     => path,
+            :read_timeout => 1 # Force Read failure and return to avoid read timeout error
           )
+        rescue Excon::Error::Timeout
+          true
         end
-
       end
     end
   end
