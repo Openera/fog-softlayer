@@ -117,29 +117,29 @@ module Fog
         end
 
         def request(params = {}, parse_json = true)
-          begin
-            params.is_a?(Hash) or raise ArgumentError, "#{self.class}#request params must be a Hash"
-            params = _build_params(params)
-            response = @connection.request(params)
+          params.is_a?(Hash) or raise ArgumentError, "#{self.class}#request params must be a Hash"
+          params = _build_params(params)
 
-            if response.status == 401 && !!@auth_token
-              @auth_token = nil; @auth_expires = nil
-              authenticate
-              response = @connection.request(params)
-            end
+          response = begin
+            @connection.request(params)
+          rescue Excon::Error::Unauthorized
+            @auth_token = nil; @auth_expires = nil
+            authenticate
+            params[:headers]['X-Auth-Token'] = @auth_token
+            
+            @connection.request(params)
+          end
 
-            if !response.body.empty? && parse_json && response.get_header('Content-Type') =~ %r{application/json}
-              response.body = Fog::JSON.decode(response.body)
-            end
+          if !response.body.empty? && parse_json && response.get_header('Content-Type') =~ %r{application/json}
+            response.body = Fog::JSON.decode(response.body)
+          end
 
-            response
-          rescue Excon::Errors::HTTPStatusError => error
-            raise case error
-              when Excon::Errors::NotFound
-                Fog::Storage::Softlayer::NotFound.slurp(error)
-              else
-                error
-            end
+          response
+        rescue Excon::Errors::HTTPStatusError => error
+          if error.is_a?(Excon::Errors::NotFound)
+            raise Fog::Storage::Softlayer::NotFound.slurp(error)
+          else
+            raise error
           end
         end
 
