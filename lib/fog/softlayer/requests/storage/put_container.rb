@@ -18,16 +18,16 @@ module Fog
         # ==== Parameters
         # * name<~String> - Name for container, should be < 256 bytes and must not contain '/'
         #
-        def put_container(name, public=false)
-          opts = {
+        def put_container(name, headers={})
+          request(
             :expects  => [201, 202],
+            :headers  => headers,
             :method   => 'PUT',
             :path     => Fog::Softlayer.escape(name),
-          }
-          opts[:headers] = { 'X-Container-Read' => '.r:*' } if public
-          request(opts)
+            :read_timeout => 1 # Force Read failure and return to avoid read timeout error
+          )
         end
-
+        
       end
     end
   end
