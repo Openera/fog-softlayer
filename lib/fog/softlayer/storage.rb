@@ -37,6 +37,7 @@ module Fog
       request :put_object_manifest
       request :put_dynamic_obj_manifest
       request :put_static_obj_manifest
+      request :post_dynamic_obj_manifest
       request :post_set_meta_temp_url_key
       request :search_objects
       request :update_object_metadata
