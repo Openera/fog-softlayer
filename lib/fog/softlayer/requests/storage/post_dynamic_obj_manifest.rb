@@ -22,7 +22,7 @@ module Fog
           path = "#{Fog::Softlayer.escape(container)}/#{Fog::Softlayer.escape(object)}"
           headers = {'X-Object-Manifest' => path}.merge(options)
           request(
-            :expects  => 201,
+            :expects  => 202,
             :headers  => headers,
             :method   => 'POST',
             :path     => path
